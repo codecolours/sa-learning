@@ -11,3 +11,25 @@ body {
 p {
   margin-bottom: 20px;
 }
+
+.wp-block-button .wp-block-button__link.wp-element-button,
+a.button {
+    background: $pcolor;
+    padding: 8px 30px;
+    display: inline-block;
+    &:after {
+      content: var(--fa-arrow-right);
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 600;
+      font-size: 14px;
+      margin-left: 10px;
+      transition: transform 0.3s ease;
+    }
+}
+
+.wp-block-button.is-style-secondary .wp-block-button__link.wp-element-button,
+a.button.button-secondary {
+    background: transparent;
+    color: $pcolor;
+    padding-left: 0;
+}

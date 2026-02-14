@@ -1,13 +1,36 @@
 @use 'variables' as *;
 
 .category-featured-block {
+    .flex-container {
+        display: flex;
+        gap: 20px;
+        
+        &:has(.featured-item:hover) .featured-item:not(:hover) {
+            flex: 1;
+            
+            h3 {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+    
     .featured-item {
-        flex: 1 1 calc(25% - 20px);
+        flex: 1;
+        min-width: 0;
         height: 650px;
         position: relative;
         box-sizing: border-box;
         padding: 25px;
-        h3, .featured-content {
+        transition: all 0.3s ease;
+        
+        h3 {
+            position: relative;
+            z-index: 10;
+        }
+        
+        .featured-content {
             position: relative;
             z-index: 10;
         }
@@ -37,13 +60,47 @@
         }
         .featured-content {
             display: flex;
-            display: none;
-            .courses-wrapper ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-                a {
-                    text-decoration: none;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            visibility: hidden;
+            transition: opacity 0.4s ease, max-height 0.4s ease, visibility 0.4s;
+            gap: 20px;
+
+            .content-info {
+                flex: 0 0 auto;
+                max-width: 300px;
+                line-height: 1.4;
+            }
+            
+            .courses-wrapper {
+                flex: 0 0 auto;
+                max-width: 300px;
+                ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                    a {
+                        text-decoration: none;
+                    }
+                    li {
+                        border-bottom: 1px solid rgba($scolor, 0.8);
+                        padding-bottom: 6px;
+                        margin: 6px 0;
+                        &:last-child {
+                            border-bottom: none;
+                        }
+                    }
+                }
+                h4 {
+                    margin-bottom: 5px;
+                }
+            }
+            .btn-wrapper {
+                margin-top: 15px;
+                > a {
+                    font-size: .95rem;
+                    padding: 8px 25px;
                 }
             }
         }
@@ -53,9 +110,36 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 50%;
-            background: linear-gradient(to bottom, $actcolor1, transparent);
+            height: 100%;
+            background: linear-gradient(to bottom,
+                            $actcolor1 0%,
+                            $actcolor1 45%,
+                            transparent 100%);
             border-radius: $smallRadius $smallRadius 0 0;
         }
+        
+        // Hover state
+        &:hover {
+            flex: 4;
+            
+            .featured-content {
+                opacity: 1;
+                max-height: 500px;
+                visibility: visible;
+            }
+        }
+    }
+}
+
+
+.number-counter-block {
+    .number-wrapper {
+        font-size: 6.5rem;
+        font-weight: 500;
+        font-family: 'Outfit';
+        line-height: 1;
+        border-bottom: 1px solid;
+        width: 100%;
+        display: flex;
     }
 }

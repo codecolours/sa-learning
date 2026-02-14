@@ -8,12 +8,16 @@
 add_theme_support( 'editor-styles' );
 add_editor_style( 'assets/dist/css/editor-style.css' );
 
-//loading font awesome 5 in all pages
 function site_enqueue_scripts() {
 
 	wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );
 	wp_enqueue_style( 'sa-learning-theme', get_stylesheet_directory_uri() . '/assets/dist/css/style.css', null, '1.0.0', 'all' );
     wp_enqueue_script( 'sa-learning-script', get_stylesheet_directory_uri() . '/assets/dist/js/main.js', array( 'jquery' ), '1.0.', true );    
+
+    // Enqueue Font Awesome (check if not already loaded by Otter plugin)
+    if ( ! wp_style_is( 'font-awesome-5', 'enqueued' ) ) {
+        wp_enqueue_style( 'font-awesome-5', '/wp-content/plugins/otter-blocks/assets/fontawesome/css/all.min.css', array(), null );
+    }
 
     // Localize the script with new data
     // wp_localize_script( 'sa-learning-script', 'tmeAjaxURL', array(

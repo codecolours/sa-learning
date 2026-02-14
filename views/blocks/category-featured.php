@@ -34,9 +34,12 @@ $extraClassName = !empty($block['className']) ? ' ' . esc_attr($block['className
                 <div class="featured-content">
                     <div class="content-info">
                         <?php echo esc_html($categoryDescription); ?>
+                        <div class="btn-wrapper">
+                            <a href="<?php echo esc_url($categoryLink); ?>" class="button button-primary">More Info</a>
+                            <a href="<?php echo esc_url($categoryLink); ?>" class="button button-secondary">Get in Touch</a>
+                        </div>
                     </div>
-                    <div class="courses-wrapper">
-                        <?php 
+                    <?php 
                         $courses = get_posts(array(
                             'post_type' => 'sa-course',
                             'tax_query' => array(
@@ -47,7 +50,8 @@ $extraClassName = !empty($block['className']) ? ' ' . esc_attr($block['className
                                 ),
                             ),
                         ));
-                        if ($courses): ?>
+                    if ($courses): ?>
+                        <div class="courses-wrapper">
                             <h4>Courses</h4>
                             <ul class="courses-list">
                                 <?php foreach ($courses as $course): ?>
@@ -56,8 +60,8 @@ $extraClassName = !empty($block['className']) ? ' ' . esc_attr($block['className
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
-                        <?php endif; ?>
-                    </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <?php if ($categoryImage): ?>
                     <div class="featured-image">

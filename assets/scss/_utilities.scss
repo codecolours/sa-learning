@@ -96,8 +96,8 @@
   margin-bottom: 50px;
 }
 
-.spb-normal {
-  padding-bottom: 20px;
+.smb-20 {
+  margin-bottom: 20px;
 }
 
 .smt-large {
@@ -116,6 +116,11 @@
   &-xlarge {
     padding-right: 5%;
   }
+}
+
+.text-h5 {
+  text-transform: uppercase;
+  font-size: var(--h5fontsize);
 }
 
 .uppercase {
