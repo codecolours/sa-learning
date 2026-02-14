@@ -1,0 +1,13 @@
+@use 'variables' as *;
+
+html {
+  font-size: 17px; 
+}
+
+body {
+  color: $text-color;
+}
+
+p {
+  margin-bottom: 20px;
+}

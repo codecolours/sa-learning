@@ -1,0 +1,123 @@
+@use 'variables' as *;
+
+// section paddings
+.pad-top, .pad-top-bottom {
+  padding-top: 40px !important;
+  margin-top: 0;
+
+  @media only screen and (width >= 767px) {
+    padding-top: 90px !important;
+  }
+}
+
+.pad-bottom, .pad-top-bottom {
+  padding-bottom: 40px !important;
+  margin-bottom: 0;
+    
+  @media only screen and (width >= 767px) {
+    padding-bottom: 90px !important;
+  }
+}
+
+.spy2 {
+  padding-top: 40px !important;
+  padding-bottom: 40px !important;
+
+  @media only screen and (width >= 959px) {
+    padding-top: 50px !important;
+    padding-bottom: 50px !important;
+  }
+}
+
+.smb-50 {
+  margin-bottom: 50px !important;
+}
+
+.smb-tiny {
+  margin-bottom: 10px !important;
+}
+
+.center {
+  text-align: center;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.white *, .white {
+  color: #fff !important;
+}
+
+.bg-white {
+  background: #fff;
+}
+
+.max-1300 {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.max-1000 {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.max-700 {
+  max-width: 700px;
+}
+
+.max-600 {
+  max-width: 600px;
+}
+
+.max-500 {
+  max-width: 500px;
+}
+
+.max-400 {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.smb-0 {
+  margin-bottom: 0;
+}
+
+.smb-10 {
+  margin-bottom: 10px;
+}
+
+.smb-large {
+  margin-bottom: 50px;
+}
+
+.spb-normal {
+  padding-bottom: 20px;
+}
+
+.smt-large {
+  margin-top: 40px;
+}
+
+.sp-large {
+  padding: 40px 50px;
+}
+
+.pad-r {
+  &-large {
+    padding-right: 3%;
+  }
+
+  &-xlarge {
+    padding-right: 5%;
+  }
+}
+
+.uppercase {
+  text-transform: uppercase;
+}

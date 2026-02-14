@@ -1,0 +1,131 @@
+@use 'variables' as *;
+
+:root {
+  --col-gap: #{$col-gap};
+}
+
+.flex-container {
+  display: flex;
+  gap: $col-gap;
+  align-items: stretch;
+  flex-wrap: wrap;
+
+  &.v-middle {
+    align-items: center;
+  }
+
+  &.v-bottom {
+    align-items: flex-end;
+  }
+}
+
+.item {
+  flex: 1;
+
+  &.align-right {
+    justify-content: flex-end;
+    display: flex;
+  }
+}
+
+/* Column Widths */
+.col-2 {
+  // flex: 0 0 16.67%;
+  --columns: 6;
+}
+
+.col-3 {
+  // flex: 0 0 25%;
+  --columns: 4;
+}
+
+.col-4 {
+  // flex: 0 0 33.33%;
+  --columns: 3;
+}
+
+.col-5 {
+  // flex: 0 0 41.67%;
+  --columns: 2.4;
+}
+
+.col-6 {
+  // flex: 0 0 50%;
+  --columns: 2;
+}
+
+.col-7 {
+  // flex: 0 0 58.33%;
+  --columns: 1.71;
+}
+
+.col-8 {
+  // flex: 0 0 66.67%;
+  --columns: 1.5;
+}
+
+.col-9 {
+  // flex: 0 0 75%;
+  --columns: 1.33;
+}
+
+.col-10 {
+  // flex: 0 0 83.33%;
+  --columns: 1.2;
+}
+
+.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10 {
+  flex: 0 0 calc((100% / var(--columns)) - #{$col-gap});
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 767px) {
+  .flex-container {
+    flex-direction: column;
+  }
+
+  .col-2,
+  .col-3,
+  .col-4,
+  .col-5,
+  .col-6,
+  .col-7,
+  .col-8,
+  .col-9,
+  .col-10 {
+    flex: 0 0 100%;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.gap-0 {
+  gap: 0;
+}
+
+.masonry-outter {
+  position: relative;
+}
+
+.masonry-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Space between columns */
+  gap: $col-gap;
+  padding: 50px 0;
+
+  .masonry-item {
+    width: calc(33.333% - #{$col-gap});
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .box-item {
+      margin-bottom: 50px;
+    }
+  }
+}
