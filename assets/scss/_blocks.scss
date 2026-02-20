@@ -143,3 +143,81 @@
         display: flex;
     }
 }
+
+.course-listing-block {
+    .filters-wrapper {
+        width: 100%;
+        padding-bottom: 35px;
+    }
+    .filter-list {
+        padding: 0;
+        margin: 0;
+        li {
+            list-style: none;
+            display: inline-block;
+            margin-right: 20px;
+            a {
+                text-transform: uppercase;
+                text-decoration: none;
+                color: rgba($scolor, 0.5);
+                font-weight: 500;
+                font-size: .95rem;
+                transition: color 0.3s ease;
+                &:hover {
+                    color: $scolor;
+                }
+            }
+            &.active a {
+                color: $scolor;
+            }
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+    .courses-wrapper {
+        .course-item {
+            border-radius: 0 0 $smallRadius $smallRadius;
+            background: $white;
+        }
+        .course-img {
+            height: 300px;
+            position: relative;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: $smallRadius $smallRadius 0 0;
+            }
+            .course-code {
+                position: absolute;
+                top: 0;
+                left: 0;
+                background: $scolor;
+                color: $white;
+                padding: 10px 20px;
+                border-radius: $smallRadius 0 $smallRadius 0;
+                line-height: 1;
+            }
+            .c-highlight {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                background: $pcolor;
+                color: $white;
+                padding: 10px 20px;
+                border-radius: 0 $smallRadius 0 0;
+                line-height: 1;
+            }
+        }
+        .course-info {            
+            padding: 25px 30px;            
+            h4 {
+                margin-bottom: 10px;
+            }
+            .course-det {
+                padding-bottom: 5px;
+            }
+        }
+    }
+}

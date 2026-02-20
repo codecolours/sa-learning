@@ -33,3 +33,51 @@ a.button.button-secondary {
     color: $pcolor;
     padding-left: 0;
 }
+
+
+.wp-block-themeisle-blocks-posts-grid .o-posts-grid-post-blog .o-posts-grid-post {
+  position: relative;
+  background: transparent !important;
+  .o-posts-grid-post-body {
+    padding-left: 0;
+    .o-posts-grid-post-category {
+      position: absolute;
+      top: 0;
+      left: 0;
+      line-height: normal;
+      background: $scolor;
+      padding: 10px 25px;
+      border-radius: $smallRadius 0 0 0;
+      a {
+        text-decoration: none;
+        color: $white;
+      }
+    }
+  }
+  .o-posts-grid-post-image {
+    height:300px;
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: $smallRadius;
+    }
+  }
+  .o-posts-grid-post-description a {
+    display: inline-block;
+    padding-top: 10px;
+    &:after {
+      content: var(--fa-arrow-right);
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 600;
+      font-size: 14px;
+      margin-left: 10px;
+      transition: transform 0.3s ease;
+    }
+  }
+}
