@@ -1,7 +1,62 @@
 @use 'variables' as *;
 
 .site-footer {
-  
+  .widget .widget-title {
+    font-weight: 400;
+    font-family: var(--headingsfontfamily);
+    color: $actcolor3;
+    font-size: 1.5rem;
+  }
+
+  .footer-top {
+    padding-top: 75px;
+  }
+
+  .footer-main {
+    padding-top: 50px;
+    .footer-main-inner .container {
+      padding-bottom: 30px;
+      border-bottom: 1px solid $white;
+    }
+  }
+
+  .footer-bottom {
+    padding: 25px 0;
+    .builder-item--footer_copyright {
+      font-size: .80rem;
+      color: $white;
+      font-weight: 300;
+    }
+    .nv-footer-content {
+      .hfg-slot.c-left {
+        display: block;
+        text-align: right;
+        font-size: .80rem;
+      }
+      > .hfg-slot > .builder-item {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
+
+  ul.menu {
+    li.menu-large a {
+      color: $actcolor3;
+      font-size: 1.3rem;
+      padding-top: 1rem;
+      font-family: var(--headingsfontfamily);
+      display: inline-block;
+    }
+    li.menu-item a {
+      transition: color 0.3s ease;
+      line-height: 1.5;
+      display: inline-block;
+      &:hover {
+        color: $actcolor3;
+      }
+    }
+  }
 }
 
 .footer-info {

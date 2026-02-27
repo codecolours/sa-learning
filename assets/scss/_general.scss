@@ -12,11 +12,16 @@ p {
   margin-bottom: 20px;
 }
 
+a {
+  text-decoration: none;
+}
+
 .wp-block-button .wp-block-button__link.wp-element-button,
 a.button {
     background: $pcolor;
     padding: 8px 30px;
     display: inline-block;
+    font-weight: 500;
     &:after {
       content: var(--fa-arrow-right);
       font-family: 'Font Awesome 5 Free';
@@ -32,12 +37,30 @@ a.button.button-secondary {
     background: transparent;
     color: $pcolor;
     padding-left: 0;
+    font-weight: 500;
 }
 
+.alignfull .wp-block-genesis-blocks-gb-container.gb-block-container {
+  max-width: $containerWidth;
+  margin: 0 auto;
+}
 
 .wp-block-themeisle-blocks-posts-grid .o-posts-grid-post-blog .o-posts-grid-post {
   position: relative;
   background: transparent !important;
+  padding-top: 300px;
+  &:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 300px;
+    content: '';
+    background: $white;
+    opacity: 1;
+    z-index: 0;
+    border-radius: 20px;
+  }
   .o-posts-grid-post-body {
     padding-left: 0;
     .o-posts-grid-post-category {
@@ -56,6 +79,10 @@ a.button.button-secondary {
   }
   .o-posts-grid-post-image {
     height:300px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     a {
       display: block;
       width: 100%;
@@ -80,4 +107,46 @@ a.button.button-secondary {
       transition: transform 0.3s ease;
     }
   }
+}
+
+.rank-math-breadcrumb {
+  text-transform: uppercase;
+  font-weight: 500;
+
+  p {
+    margin-bottom: 0;
+    line-height: normal;
+  }
+
+  a:first-child, .separator {
+    font-size: 0;
+  }
+
+  a:first-child:before {
+    content: var(--fa-home);
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 16px;
+    color: $scolor;
+  }
+
+  .separator {
+    &:before {
+      content: var(--fa-arrow-right);
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 600;
+      font-size: 13px;
+      margin: 0 8px;
+      transition: transform 0.3s ease;
+    }
+  }
+}
+
+
+.builder-item--advanced_search_icon_1 {
+  --iconsize: 22px;
+}
+
+.scroll-to-top {
+  color: $white;
 }

@@ -1,60 +1,32 @@
 @use 'variables' as *;
 
-.gform_wrapper .site-form {
-  .gfield {
-    input, select, textarea {
-      padding: 8px 25px;
-      &::placeholder {
-        color: rgba($text-color, 0.75);
-      }
-      
-      &::-webkit-input-placeholder { /* Chrome/Safari/Opera */
-          color: rgba($text-color, 0.75);
-      }
-      
-      &::-moz-placeholder { /* Firefox */
-          color: rgba($text-color, 0.75);
-          opacity: 1; /* Firefox needs this */
-      }
-      
-      &:-ms-input-placeholder { /* IE/Edge */
-          color: rgba($text-color, 0.75);
-      }
+.gform_wrapper.gravity-theme {
+  .site-form {
+    .gform_fields {
+        input.large, select.large, textarea {
+            border-radius: 25px !important;
+            padding: 8px 25px;
+            border-color: rgba(#000, .2);
+            background: $white;
+        }
+        .gfield_validation_message {
+          background: transparent;
+          border: none;
+          box-shadow:none;
+          padding: 0 0 0 24px;
+        }
     }
-    select {
-      
-      // Style the select when showing placeholder
-      &:has(option.gf_placeholder:checked) {
-          color: rgba($text-color, 0.35);
-      }
-      
-      // Style when an actual option is selected
-      &:has(option:not(.gf_placeholder):checked) {
-          color: $text-color;
-      }
-    }
-  }
-
-  .gform_footer .gform_button.button {
-    background: $pcolor;
-    transition: .5s;
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-  }
-
-  &.site-form-alt{
     .gform_footer .gform_button.button {
-      background-color: $scolor;
-      padding: 10px 40px 10px 25px;
-      background-position: 90% 13px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' fill='%23ffffff'%3E%3Cpath d='M285.48 272.97L91.05 467.4c-9.37 9.37-24.57 9.37-33.94 0l-22.63-22.63c-9.37-9.37-9.37-24.57 0-33.94L188.12 256 34.48 101.17c-9.37-9.37-9.37-24.57 0-33.94L57.11 44.6c9.37-9.37 24.57-9.37 33.94 0l194.43 194.43c9.37 9.37 9.37 24.57 0 33.94z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 20px center;
+        background-size: 10px;
+        padding-right: 40px;
     }
-
-    .gfield {
-      input.large, select.large, textarea {
-        background: $white;
-      }
-    }
+  }
+  .gform_validation_errors {
+    background: rgba(0, 0, 0, 0) !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 }

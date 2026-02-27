@@ -3,6 +3,24 @@
     "title": "Course Fields",
     "fields": [
         {
+            "key": "field_699c2b4acd8eb",
+            "label": "Course Details",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
             "key": "field_6987ee868fdec",
             "label": "Course Code",
             "name": "course_code",
@@ -45,11 +63,11 @@
             "append": ""
         },
         {
-            "key": "field_6987eeec8fded",
-            "label": "Course Info",
-            "name": "course_info",
+            "key": "field_699c35ae6544d",
+            "label": "Course Group Items",
+            "name": "course_group",
             "aria-label": "",
-            "type": "repeater",
+            "type": "group",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -58,20 +76,14 @@
                 "class": "",
                 "id": ""
             },
-            "layout": "table",
-            "pagination": 0,
-            "min": 0,
-            "max": 0,
-            "collapsed": "",
-            "button_label": "Add Row",
-            "rows_per_page": 20,
+            "layout": "block",
             "sub_fields": [
                 {
-                    "key": "field_6987ef038fdee",
-                    "label": "Select Info",
-                    "name": "info_selection",
+                    "key": "field_699c339146880",
+                    "label": "Course Info",
+                    "name": "",
                     "aria-label": "",
-                    "type": "select",
+                    "type": "tab",
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
@@ -80,38 +92,124 @@
                         "class": "",
                         "id": ""
                     },
-                    "choices": {
-                        "next-intake": "Next Intake",
-                        "crs-duration": "Course Duration",
-                        "crs-delivery": "Delivery Method",
-                        "crs-funded-fee": "Funded Course fee",
-                        "crs-full-fee": "Full Fee",
-                        "crs-incidental-fee": "Incidental Fees",
-                        "crs-fee-inc": "Fee inclusion",
-                        "crs-unitsof comp": "Units of Competency",
-                        "crs-contact-number": "Contact Number",
-                        "crs-location": "Location",
-                        "crs-custom": "Custom Title"
-                    },
-                    "default_value": false,
-                    "return_format": "array",
-                    "multiple": 0,
-                    "allow_null": 0,
-                    "allow_in_bindings": 0,
-                    "ui": 0,
-                    "ajax": 0,
-                    "placeholder": "",
-                    "create_options": 0,
-                    "save_options": 0,
-                    "parent_repeater": "field_6987eeec8fded"
+                    "placement": "top",
+                    "endpoint": 0,
+                    "selected": 0
                 },
                 {
-                    "key": "field_6987f0398fdef",
-                    "label": "Info Title",
-                    "name": "info_title",
+                    "key": "field_6987eeec8fded",
+                    "label": "Course Info",
+                    "name": "course_info",
+                    "aria-label": "",
+                    "type": "repeater",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "table",
+                    "pagination": 0,
+                    "min": 0,
+                    "max": 0,
+                    "collapsed": "",
+                    "button_label": "Add Course Info",
+                    "rows_per_page": 20,
+                    "sub_fields": [
+                        {
+                            "key": "field_6987ef038fdee",
+                            "label": "Select Info",
+                            "name": "info_selection",
+                            "aria-label": "",
+                            "type": "select",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "next-intake": "Next Intake",
+                                "crs-duration": "Course Duration",
+                                "crs-delivery": "Delivery Method",
+                                "crs-funded-fee": "Funded Course fee",
+                                "crs-full-fee": "Full Fee",
+                                "crs-incidental-fee": "Incidental Fees",
+                                "crs-fee-inc": "Fee inclusion",
+                                "crs-unitsof comp": "Units of Competency",
+                                "crs-contact-number": "Contact Number",
+                                "crs-location": "Location",
+                                "crs-custom": "Custom Title"
+                            },
+                            "default_value": false,
+                            "return_format": "array",
+                            "multiple": 0,
+                            "allow_null": 0,
+                            "allow_in_bindings": 0,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "create_options": 0,
+                            "save_options": 0,
+                            "parent_repeater": "field_6987eeec8fded"
+                        },
+                        {
+                            "key": "field_6987f0398fdef",
+                            "label": "Info Title",
+                            "name": "info_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "if blank, it will use the dropdown info value",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_6987eeec8fded"
+                        },
+                        {
+                            "key": "field_6987f05e8fdf0",
+                            "label": "Info Details",
+                            "name": "info_details",
+                            "aria-label": "",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "rows": 4,
+                            "placeholder": "",
+                            "new_lines": "",
+                            "parent_repeater": "field_6987eeec8fded"
+                        }
+                    ]
+                },
+                {
+                    "key": "field_699c38afee81e",
+                    "label": "Course Info Conditions",
+                    "name": "course_conditions",
                     "aria-label": "",
                     "type": "text",
-                    "instructions": "",
+                    "instructions": "conditions will show at the end of the table",
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
@@ -124,15 +222,14 @@
                     "allow_in_bindings": 0,
                     "placeholder": "",
                     "prepend": "",
-                    "append": "",
-                    "parent_repeater": "field_6987eeec8fded"
+                    "append": ""
                 },
                 {
-                    "key": "field_6987f05e8fdf0",
-                    "label": "Info Details",
-                    "name": "info_details",
+                    "key": "field_699c35fa6544e",
+                    "label": "Core Units",
+                    "name": "",
                     "aria-label": "",
-                    "type": "textarea",
+                    "type": "tab",
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
@@ -141,15 +238,391 @@
                         "class": "",
                         "id": ""
                     },
-                    "default_value": "",
-                    "maxlength": "",
-                    "allow_in_bindings": 0,
-                    "rows": "",
-                    "placeholder": "",
-                    "new_lines": "",
-                    "parent_repeater": "field_6987eeec8fded"
+                    "placement": "top",
+                    "endpoint": 0,
+                    "selected": 0
+                },
+                {
+                    "key": "field_699c2dd3ad4d5",
+                    "label": "Core Units",
+                    "name": "core_units",
+                    "aria-label": "",
+                    "type": "repeater",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "table",
+                    "pagination": 0,
+                    "min": 0,
+                    "max": 0,
+                    "collapsed": "",
+                    "button_label": "Add Core Units",
+                    "rows_per_page": 20,
+                    "sub_fields": [
+                        {
+                            "key": "field_699c2e00ad4d6",
+                            "label": "Core Unit Item",
+                            "name": "core_unit_item",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_699c2dd3ad4d5"
+                        }
+                    ]
+                },
+                {
+                    "key": "field_699c360e6544f",
+                    "label": "Elective Unit",
+                    "name": "",
+                    "aria-label": "",
+                    "type": "tab",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placement": "top",
+                    "endpoint": 0,
+                    "selected": 0
+                },
+                {
+                    "key": "field_699c2e28ad4d7",
+                    "label": "Elective Unit",
+                    "name": "elective_unit",
+                    "aria-label": "",
+                    "type": "repeater",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "table",
+                    "pagination": 0,
+                    "min": 0,
+                    "max": 0,
+                    "collapsed": "",
+                    "button_label": "Add Elective Unit",
+                    "rows_per_page": 20,
+                    "sub_fields": [
+                        {
+                            "key": "field_699c2e5cad4d8",
+                            "label": "Elective Unit Title",
+                            "name": "elective_unit_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_699c2e28ad4d7"
+                        },
+                        {
+                            "key": "field_699c2e64ad4d9",
+                            "label": "Elective Unit Items",
+                            "name": "elective_unit_items",
+                            "aria-label": "",
+                            "type": "repeater",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "layout": "table",
+                            "min": 0,
+                            "max": 0,
+                            "collapsed": "",
+                            "button_label": "Add Elective Unit Items",
+                            "rows_per_page": 20,
+                            "sub_fields": [
+                                {
+                                    "key": "field_699c2e76ad4da",
+                                    "label": "Elective Unit Item",
+                                    "name": "elective_unit_item",
+                                    "aria-label": "",
+                                    "type": "text",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "allow_in_bindings": 0,
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_699c2e64ad4d9"
+                                }
+                            ],
+                            "parent_repeater": "field_699c2e28ad4d7"
+                        }
+                    ]
                 }
             ]
+        },
+        {
+            "key": "field_699c2b62cd8ec",
+            "label": "Course Banner Settings",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_699c2bb7cd8ee",
+            "label": "Page Banner",
+            "name": "page_banner",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "75",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
+            "allow_in_bindings": 0,
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_699c2b83cd8ed",
+            "label": "Remove Bnner",
+            "name": "remove_bnner",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "allow_in_bindings": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "ui": 1
+        },
+        {
+            "key": "field_699c2bd3cd8ef",
+            "label": "Banner Title",
+            "name": "banner_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "80",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_699e438b7e0a7",
+            "label": "Title Tag",
+            "name": "title_tag",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "20",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "h1": "H1",
+                "h2": "H2",
+                "h3": "H3"
+            },
+            "default_value": false,
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "allow_in_bindings": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_699c2c00cd8f0",
+            "label": "Banner Description",
+            "name": "banner_description",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_699e6039b7ef5",
+            "label": "Course Events",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_699e6046b7ef6",
+            "label": "Section Sub Title",
+            "name": "section_sub_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_699e605fb7ef7",
+            "label": "Section Title",
+            "name": "section_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_699e6066b7ef8",
+            "label": "Course Events",
+            "name": "course_events",
+            "aria-label": "",
+            "type": "post_object",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "sa-event"
+            ],
+            "post_status": [
+                "publish"
+            ],
+            "taxonomy": "",
+            "return_format": "id",
+            "multiple": 1,
+            "allow_null": 0,
+            "allow_in_bindings": 0,
+            "bidirectional": 0,
+            "ui": 1,
+            "bidirectional_target": []
         }
     ],
     "location": [
@@ -170,6 +643,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "display_title": "",
-    "modified": 1771114820
+    "modified": 1771987917
 }

@@ -2,6 +2,7 @@
 import jQuery from 'jquery';
 import { initNumberCounters } from './number-counter';
 import { initCourseFilter } from './course-filter';
+import { initPostFilter } from './post-filter';
 
 
 // Wait for DOM to be ready
@@ -11,4 +12,7 @@ jQuery(document).ready(function($) {
     
     // Initialize course filtering if filter exists on the page
     initCourseFilter();
+    
+    // Initialize post filtering with AJAX if filter exists on the page
+    initPostFilter();
 });

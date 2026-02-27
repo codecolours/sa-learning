@@ -1,10 +1,10 @@
 <?php 
 /**
-* Title: Course Listing
-* Description: Course Listing
+* Title: Posts Listing
+* Description: Posts Listing
 * Category: layout
-* Icon: list-view
-* Keywords: course-listing
+* Icon: admin-generic
+* Keywords: posts-listing
 * SupportsAlign: false
 * Mode: edit
 * PostTypes: page
@@ -12,23 +12,20 @@
 ?>
 
 <?php 
-$noOfCourses        = get_field( 'number_of_courses' ) ?: -1;
-$addFilters         = get_field( 'add_filters' );
-$filterByCategories = get_field( 'filter_by_categories' );
+$noOfPosts      = get_field( 'number_of_posts' ) ?: 6;
+$addFilters     = get_field( 'add_filters' );
+$enPagination   = get_field( 'enable_pagination' );
 $extraClassName = !empty($block['className']) ? ' ' . esc_attr($block['className']) : '';
 
-// Prepare filter categories for data attribute (for AJAX)
-$filterCategoriesData = '';
-if ($filterByCategories && is_array($filterByCategories)) {
-    $filterCategoriesData = implode(',', $filterByCategories);
-}
+// Always respect the number of posts field
+// The pagination toggle only controls the "Load More" button visibility
+$postsPerPage = $noOfPosts;
 ?>
 
 
 <div data-block-id="<?php echo esc_attr($block['id']); ?>" 
-     data-courses-per-page="<?php echo esc_attr($noOfCourses); ?>"
-     data-filter-by-categories="<?php echo esc_attr($filterCategoriesData); ?>"
-     class="block-content course-listing-block<?php echo $extraClassName; ?>">
+     data-posts-per-page="<?php echo esc_attr($postsPerPage); ?>" 
+     class="block-content posts-listing-block<?php echo $extraClassName; ?>">
     
     <?php if ($addFilters): ?>
         <div class="filters-wrapper">
@@ -39,7 +36,7 @@ if ($filterByCategories && is_array($filterByCategories)) {
                     </li>
                     <?php 
                     $categories = get_terms(array(
-                        'taxonomy' => 'course-category',
+                        'taxonomy' => 'category',
                         'hide_empty' => true,
                     ));
                     foreach ($categories as $category): ?>
@@ -55,35 +52,30 @@ if ($filterByCategories && is_array($filterByCategories)) {
     <div class="block-inner items-wrapper flex-container">
         <?php
         $args = array(
-            'post_type' => 'sa-course',
-            'posts_per_page' => $noOfCourses,
+            'post_type' => 'post',
+            'posts_per_page' => $postsPerPage,
             'post_status' => 'publish',
         );
-
-        // Apply category filter if specified
-        if ($filterByCategories && !empty($filterByCategories)) {
-            $args['tax_query'] = array(
-                array(
-                    'taxonomy' => 'course-category',
-                    'field' => 'term_id',
-                    'terms' => $filterByCategories,
-                ),
-            );
-        }
-
+        
         $query = new WP_Query($args);
 
         if ($query->have_posts()): 
             while ($query->have_posts()): 
                 $query->the_post();
-                set_query_var('courseID', get_the_ID());
-                get_template_part('views/loop-templates/course-item');
+                set_query_var('postID', get_the_ID());
+                get_template_part('views/loop-templates/post-card');
             endwhile;
             wp_reset_postdata();
         else: ?>
-            <p class="no-courses-found">No courses found!</p>
+            <p class="no-posts-found">No posts found!</p>
         <?php endif; ?>
     </div>
+    
+    <?php if ($enPagination && $query->max_num_pages > 1): ?>
+        <div class="load-more-wrapper">
+            <button class="button button-primary load-more-btn">Load More <span>+</span></button>
+        </div>
+    <?php endif; ?>
 </div>
 
 

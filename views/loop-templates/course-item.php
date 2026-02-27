@@ -21,8 +21,8 @@ if ($categories && !is_wp_error($categories)) {
 }
 $data_categories = !empty($category_slugs) ? implode(' ', $category_slugs) : 'uncategorized';
 ?>
-<div class="course-item col-4" data-category="<?php echo esc_attr($data_categories); ?>">
-    <div class="course-img">
+<div class="list-item col-4" data-category="<?php echo esc_attr($data_categories); ?>">
+    <div class="item-img">
         <?php 
         $featuredImage = get_the_post_thumbnail_url($course_id);
         if ($featuredImage): ?>
@@ -41,12 +41,12 @@ $data_categories = !empty($category_slugs) ? implode(' ', $category_slugs) : 'un
             </div>
         <?php endif; ?>
     </div>
-    <div class="course-info">
+    <div class="item-info">
         <h4><?php echo esc_html(get_the_title($course_id)); ?></h4>
         <?php 
         $excerpt = get_the_excerpt($course_id);
         if ($excerpt): ?>
-            <div class="course-det">
+            <div class="item-det">
                 <?php echo wp_kses_post($excerpt); ?>
             </div>
         <?php endif; ?>

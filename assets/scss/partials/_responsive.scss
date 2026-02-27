@@ -4,3 +4,10 @@
         margin-bottom: 0;
     }
 }
+
+
+@media (max-width: 781px) {
+    .wp-block-columns.mb-two-col .wp-block-column {
+        flex-basis: 45% !important;
+    }
+}

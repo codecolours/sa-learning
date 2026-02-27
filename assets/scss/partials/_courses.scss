@@ -1,0 +1,97 @@
+@use 'variables' as *;
+
+.single-sa-course {
+  h4 {
+    font-size: 1.4rem;
+    line-height: 1.2;
+  }
+  .nv-single-post-wrap > .nv-content-wrap {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.course-banner-container {
+	position: relative;
+	min-height: 450px;
+	display: flex;
+	max-width: 96%;
+	margin: 35px auto 0 auto;
+
+	.course-banner {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 1;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+      border-radius: $smallRadius;
+      margin: 0 auto;
+		}
+
+		&::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(to right, rgba($body-bg, .3), rgba($body-bg, 0));
+      border-radius: $smallRadius;
+		}
+	}
+
+  .course-code {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: $scolor;
+    color: $white;
+    padding: 10px 20px;
+    border-radius: $smallRadius 0 $smallRadius 0;
+    line-height: 1;
+    font-size: .9rem;
+    z-index: 2;
+  }
+
+  .course-highlight {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: $pcolor;
+    color: $white;
+    padding: 10px 20px;
+    border-radius: $smallRadius 0 $smallRadius 0;
+    line-height: 1;
+    z-index: 2;
+  }
+
+  .course-banner-content-wrapper {
+    position: relative;
+    z-index: 2;
+    width: $containerWidth;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 75px 20px;
+  }
+
+	.course-banner-content {
+    max-width: 650px;
+
+    h2, h3 {
+      font-size: var(--h1fontsize);
+      line-height: var(--h1lineheight);
+    }
+
+    .c-breadcrumb {
+      position: absolute;
+      bottom: 50px;
+    }
+	}
+}

@@ -1,54 +1,52 @@
 <?php
 /**
- * Post Block Card
+ * Post Card
  *
  * @package sa-learning
-*/
+ */
 ?>
 <?php 
-$pstID    = get_the_ID();
+$post_id = get_query_var('postID');
+if (!$post_id) {
+    return;
+}
+
 ?>
-<div class="post-item">
-	<div class="post-img">
-		<?php 
-		$postCats = get_the_category( $pstID );
-		if ($postCats): ?>
-			<div class="post-cs">
-				<?php 
-				foreach ( $postCats as $cat ): ?>
-					<a href="<?php echo esc_url(get_category_link($cat->cat_ID)); ?>">
-						<?php echo esc_html($cat->name); ?>
-					</a>                        
-				<?php 
-				endforeach;
-				?>
+<div class="post-card col-4">
+    <div class="item-img">
+        <?php 
+        $featuredImage = get_the_post_thumbnail_url($post_id);
+        if ($featuredImage): ?>
+            <a href="<?php echo esc_url(get_permalink($post_id)); ?>">
+				<img src="<?php echo esc_url($featuredImage); ?>" alt="<?php echo esc_attr(get_the_title($post_id)); ?>">
+			</a>
+        <?php endif; 
+
+		$postCategory = get_the_terms($post_id, 'category');
+
+		if ($postCategory && !is_wp_error($postCategory) && !empty($postCategory)) : 
+			$category_names = wp_list_pluck($postCategory, 'name');
+			?>
+			<div class="post-category">
+				<?php echo esc_html(implode(' | ', $category_names)); ?>
 			</div>
 		<?php endif; ?>
-		<a href="<?php echo esc_url(get_permalink( $pstID )); ?>" title="<?php echo esc_attr( the_title() ) ?>">
-			<?php the_post_thumbnail(); ?>
-		</a>
-	</div>
-	<h4>
-		<a href="<?php echo esc_url(get_permalink( $pstID )); ?>" title="<?php echo esc_attr( the_title() ) ?>">
-			<?php echo the_title(); ?>
-		</a>
-	</h4>
-	<?php 
-	$event_date = get_field( "event_date", $pstID ); 
-	if ($event_date): ?>
-			<div class="ev-date"><?php echo esc_html($event_date); ?></div>
+    </div>
+    <div class="item-info">
+        <h4><?php echo esc_html(get_the_title($post_id)); ?></h4>
 		<?php 
-	endif; ?>
-
-	<div class="excerpt"><?php echo site_excerpt( $pstID ); ?></div>
-	
-	<div class="post-links">
-		<?php 
-		$event_booking_link = get_field( "event_booking_link", $pstID );
-		if ($event_booking_link): ?>
-			<a class="button button-secondary" target="_blank" href="<?php echo esc_url($event_booking_link); ?>">Book Now</a>
-		<?php 
-		endif; ?>
-		<a class="button button-secondary" href="<?php echo esc_url(get_permalink( $pstID )); ?>" title="<?php echo esc_attr( the_title() ) ?>">Read More</a>
-	</div>               
+		$post_date = get_the_date('', $post_id);
+		if ($post_date): ?>
+			<div class="post-date">
+				<?php echo date('j F Y', strtotime($post_date)); ?>
+			</div>
+		<?php endif; 
+		$excerpt = get_the_excerpt($post_id);
+		if ($excerpt): ?>
+			<div class="item-det">
+				<?php echo wp_kses_post($excerpt); ?>
+			</div>
+		<?php endif; ?>
+        <a href="<?php echo esc_url(get_permalink($post_id)); ?>" class="button button-secondary">Read More</a>
+    </div>
 </div>
