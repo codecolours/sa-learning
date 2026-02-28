@@ -10,4 +10,13 @@
     .wp-block-columns.mb-two-col .wp-block-column {
         flex-basis: 45% !important;
     }
+    .mb-col-reverse {
+        flex-direction: column-reverse;
+    }
+    .img-minda {
+        max-width: 150px;
+    }
+    .sml-hidden {
+        display: none !important;
+    }
 }

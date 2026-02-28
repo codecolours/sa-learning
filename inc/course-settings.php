@@ -103,33 +103,65 @@ function sa_learning_course_events() {
 		return;
 	}
 
-    $course_events = get_field( 'course_events' );
-    if ( empty( $course_events ) ) {
-        return;
-    }
+	$course_events = get_field( 'course_events' );
+	if ( empty( $course_events ) ) {
+		return;
+	}
 
-    $section_sub_title = get_field( 'section_sub_title' );
-    $section_title = get_field( 'section_title' );
+	// Filter out past events
+	$upcoming_events = array();
+	$current_time    = current_time( 'timestamp' );
 
-    ?>
-    <div class="course-events-container pad-top">
-        <?php if ( $section_sub_title ) : ?>
-            <h5 class="smb-10"><?php echo esc_html( $section_sub_title ); ?></h5>
-        <?php endif; ?>
+	foreach ( $course_events as $event ) {
+		// Get event dates
+		$event_date_to   = get_field( 'event_date_to', $event );
+		$event_date_from = get_field( 'event_date_from', $event );
 
-        <?php if ( $section_title ) : ?>
-            <h2><?php echo esc_html( $section_title ); ?></h2>
-        <?php endif; ?>
+		// Use event_date_to if available, otherwise fall back to event_date_from
+		$event_date = $event_date_to ? $event_date_to : $event_date_from;
 
-        <div class="block-inner items-wrapper flex-container spt-25">
-            <?php foreach ( $course_events as $event ) : ?>
-                <?php 
-                    set_query_var( 'event_id', $event );                    
-                    get_template_part( 'views/loop-templates/event-card' ); ?>
-            <?php endforeach; ?>
-        </div>
-    </div>
-    <?php
+		// Skip if no date is set
+		if ( empty( $event_date ) ) {
+			continue;
+		}
+
+		// Convert date string to timestamp
+		$event_timestamp = strtotime( $event_date );
+
+		// Only include future or today's events
+		if ( $event_timestamp && $event_timestamp >= strtotime( 'today', $current_time ) ) {
+			$upcoming_events[] = $event;
+		}
+	}
+
+	// Don't show section if no upcoming events
+	if ( empty( $upcoming_events ) ) {
+		return;
+	}
+
+	$section_sub_title = get_field( 'section_sub_title' );
+	$section_title     = get_field( 'section_title' );
+
+	?>
+	<div class="course-events-container pad-top">
+		<?php if ( $section_sub_title ) : ?>
+			<h5 class="smb-10"><?php echo esc_html( $section_sub_title ); ?></h5>
+		<?php endif; ?>
+
+		<?php if ( $section_title ) : ?>
+			<h2><?php echo esc_html( $section_title ); ?></h2>
+		<?php endif; ?>
+
+		<div class="block-inner items-wrapper flex-container spt-25">
+			<?php foreach ( $upcoming_events as $event ) : ?>
+				<?php
+					set_query_var( 'event_id', $event );
+					get_template_part( 'views/loop-templates/event-card' );
+				?>
+			<?php endforeach; ?>
+		</div>
+	</div>
+	<?php
 }
 
 add_action( 'neve_after_content', 'sa_learning_course_events' );

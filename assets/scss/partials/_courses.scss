@@ -92,6 +92,9 @@
     .c-breadcrumb {
       position: absolute;
       bottom: 50px;
+      @media (max-width: 781px) {
+        display: none;
+      }
     }
 	}
 }

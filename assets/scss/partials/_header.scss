@@ -1,1 +1,5 @@
 @use 'variables' as *;
+
+header .builder-item.desktop-left a.button.button-primary {
+    white-space: nowrap;
+}

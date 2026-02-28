@@ -147,6 +147,25 @@ a.button.button-secondary {
   --iconsize: 22px;
 }
 
+.menu-item-nav-search svg {
+  color: $scolor;
+  width: 22px;
+  height: 22px;
+}
+
 .scroll-to-top {
   color: $white;
+}
+
+ul.page-numbers {
+  justify-content: center;
+  li span.current {
+    color: $white;
+  }
+}
+
+.single-post {
+  .title.entry-title {
+    color: $white;
+  }
 }

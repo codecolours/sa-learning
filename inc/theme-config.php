@@ -43,10 +43,12 @@ function append_website_by() {
     ?>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var copyrightElement = document.querySelector('.footer-bottom .nv-footer-content .hfg-slot.c-left');
-        if (copyrightElement) {
-            copyrightElement.innerHTML += 'Website by <a target="_blank" href="https://www.boylen.com.au">Boylen</a>';
-        }
+        var copyrightElements = document.querySelectorAll('.site-footer .footer-bottom .builder-item--footer_copyright');
+        copyrightElements.forEach(function(copyrightElement) {
+            if (copyrightElement) {
+                copyrightElement.innerHTML += '<div class="siteby">Website by <a target="_blank" href="https://www.boylen.com.au">Boylen</a></div>';
+            }
+        });
     });
     </script>
     <?php

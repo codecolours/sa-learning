@@ -298,6 +298,10 @@
         font-size: 1.1rem;
         color: #666;
     }
+    .posts-wrapper {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
     @media (max-width: 576px) {
         .items-wrapper {
             .item-info {
