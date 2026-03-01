@@ -23,9 +23,18 @@
         background-size: 10px;
         padding-right: 40px;
         border-radius: 50px;
+        transition: 
+          background-color 0.3s ease,
+          background-position 0.3s ease,
+          color 0.3s ease;
         @media (max-width: 781px) {
           line-height: 1 !important;
           padding: 12px 40px 12px 25px;
+        }
+        &:hover {
+          background-color: $scolor;
+          color: $white;
+          background-position: right 14px center;
         }
     }
   }

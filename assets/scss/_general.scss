@@ -22,13 +22,25 @@ a.button {
     padding: 8px 30px;
     display: inline-block;
     font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
     &:after {
       content: var(--fa-arrow-right);
       font-family: 'Font Awesome 5 Free';
       font-weight: 600;
       font-size: 14px;
       margin-left: 10px;
+      display: inline-block;
       transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      background: $scolor;
+      color: $white;
+      &:after {
+        transform: translateX(6px);
+      }
     }
 }
 
@@ -38,6 +50,9 @@ a.button.button-secondary {
     color: $pcolor;
     padding-left: 0;
     font-weight: 500;
+    &:hover {
+      background: transparent;
+    }
 }
 
 .alignfull .wp-block-genesis-blocks-gb-container.gb-block-container {
@@ -174,4 +189,11 @@ ul.page-numbers {
       color: $white;
     }
   }
+}
+
+.fa-solid.fa-user {
+  font-family: 'Font Awesome 5 Free';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.2rem;
 }

@@ -3,7 +3,7 @@
 * Title: Number Counter
 * Description: Number Counter
 * Category: layout
-* Icon: numbers
+* Icon: plus-alt
 * Keywords: number-counter
 * SupportsAlign: false
 * Mode: edit

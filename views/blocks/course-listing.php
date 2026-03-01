@@ -30,19 +30,25 @@ if ($filterByCategories && is_array($filterByCategories)) {
      data-filter-by-categories="<?php echo esc_attr($filterCategoriesData); ?>"
      class="block-content course-listing-block<?php echo $extraClassName; ?>">
     
-    <?php if ($addFilters): ?>
+    <?php if ($addFilters): 
+        $cacheKeyCat = 'course_categories_' . md5('course-category');
+        $categories = get_transient($cacheKeyCat);
+        
+        if (false === $categories) {
+            $categories = get_terms(array(
+                'taxonomy' => 'course-category',
+                'hide_empty' => true,
+            ));
+            set_transient($cacheKeyCat, $categories, 6 * HOUR_IN_SECONDS);
+        }
+    ?>
         <div class="filters-wrapper">
             <div class="filter-item">
                 <ul class="filter-list">
                     <li class="filter-item active">
                         <a data-filter="all">All</a>
                     </li>
-                    <?php 
-                    $categories = get_terms(array(
-                        'taxonomy' => 'course-category',
-                        'hide_empty' => true,
-                    ));
-                    foreach ($categories as $category): ?>
+                    <?php foreach ($categories as $category): ?>
                         <li class="filter-item">
                             <a data-filter="<?php echo esc_attr($category->slug); ?>"><?php echo esc_html($category->name); ?></a>
                         </li>
@@ -54,35 +60,55 @@ if ($filterByCategories && is_array($filterByCategories)) {
     
     <div class="block-inner items-wrapper flex-container">
         <?php
-        $args = array(
-            'post_type' => 'sa-course',
+        $cacheKey = 'course_html_' . md5(serialize(array(
             'posts_per_page' => $noOfCourses,
-            'post_status' => 'publish',
-        );
-
-        // Apply category filter if specified
-        if ($filterByCategories && !empty($filterByCategories)) {
-            $args['tax_query'] = array(
-                array(
-                    'taxonomy' => 'course-category',
-                    'field' => 'term_id',
-                    'terms' => $filterByCategories,
-                ),
+            'filter_cats' => $filterByCategories,
+            'filter' => 'all'
+        )));
+        
+        $cachedHtml = get_transient($cacheKey);
+        
+        if (false === $cachedHtml) {
+            $args = array(
+                'post_type' => 'sa-course',
+                'posts_per_page' => $noOfCourses,
+                'post_status' => 'publish',
+                'fields' => 'ids',
+                'no_found_rows' => true,
+                'update_post_meta_cache' => false,
+                'update_post_term_cache' => false,
             );
+
+            if ($filterByCategories && !empty($filterByCategories)) {
+                $args['tax_query'] = array(
+                    array(
+                        'taxonomy' => 'course-category',
+                        'field' => 'term_id',
+                        'terms' => $filterByCategories,
+                    ),
+                );
+            }
+
+            $query = new WP_Query($args);
+            $courseIds = $query->posts;
+            
+            $coursesData = sa_learning_prepare_courses_data($courseIds);
+            
+            ob_start();
+            if (!empty($coursesData)) {
+                foreach ($coursesData as $courseData) {
+                    sa_learning_render_course_item($courseData);
+                }
+            } else {
+                echo '<p class="no-courses-found">No courses found!</p>';
+            }
+            $cachedHtml = ob_get_clean();
+            
+            set_transient($cacheKey, $cachedHtml, 6 * HOUR_IN_SECONDS);
         }
 
-        $query = new WP_Query($args);
-
-        if ($query->have_posts()): 
-            while ($query->have_posts()): 
-                $query->the_post();
-                set_query_var('courseID', get_the_ID());
-                get_template_part('views/loop-templates/course-item');
-            endwhile;
-            wp_reset_postdata();
-        else: ?>
-            <p class="no-courses-found">No courses found!</p>
-        <?php endif; ?>
+        echo $cachedHtml;
+        ?>
     </div>
 </div>
 

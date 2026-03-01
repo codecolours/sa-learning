@@ -14,6 +14,79 @@
 <?php 
 $selectedCategories = get_field( 'selected_categories' );
 $extraClassName = !empty($block['className']) ? ' ' . esc_attr($block['className']) : '';
+
+$coursesByCategory = [];
+$maxCoursesPerCategory = 5;
+
+if ($selectedCategories) {
+    $categoryIds = array_map(function($cat) { return $cat->term_id; }, $selectedCategories);
+    
+    $cacheKey = 'category_featured_courses_' . md5(serialize($categoryIds));
+    $cachedData = get_transient($cacheKey);
+    
+    if (false === $cachedData) {
+        $allCourses = new WP_Query(array(
+            'post_type' => 'sa-course',
+            'posts_per_page' => -1,
+            'fields' => 'ids',
+            'no_found_rows' => true,
+            'update_post_meta_cache' => false,
+            'update_post_term_cache' => true,
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'course-category',
+                    'field' => 'term_id',
+                    'terms' => $categoryIds,
+                ),
+            ),
+        ));
+        
+        if ($allCourses->have_posts()) {
+            foreach ($allCourses->posts as $courseId) {
+                $courseTerms = wp_get_post_terms($courseId, 'course-category', array('fields' => 'ids'));
+                foreach ($courseTerms as $termId) {
+                    if (in_array($termId, $categoryIds)) {
+                        if (!isset($coursesByCategory[$termId])) {
+                            $coursesByCategory[$termId] = [];
+                        }
+                        if (count($coursesByCategory[$termId]) < $maxCoursesPerCategory) {
+                            $coursesByCategory[$termId][] = $courseId;
+                        }
+                    }
+                }
+            }
+        }
+        
+        $cachedData = array(
+            'courses' => $coursesByCategory,
+            'course_data' => array()
+        );
+        
+        $allCourseIds = array_unique(call_user_func_array('array_merge', array_values($coursesByCategory) ?: [[]]));
+        if (!empty($allCourseIds)) {
+            $coursePosts = get_posts(array(
+                'post_type' => 'sa-course',
+                'include' => $allCourseIds,
+                'posts_per_page' => -1,
+                'no_found_rows' => true,
+                'update_post_meta_cache' => false,
+                'update_post_term_cache' => false,
+            ));
+            
+            foreach ($coursePosts as $coursePost) {
+                $cachedData['course_data'][$coursePost->ID] = array(
+                    'title' => $coursePost->post_title,
+                    'permalink' => get_permalink($coursePost->ID)
+                );
+            }
+        }
+        
+        set_transient($cacheKey, $cachedData, 12 * HOUR_IN_SECONDS);
+    }
+    
+    $coursesByCategory = $cachedData['courses'];
+    $courseData = $cachedData['course_data'];
+}
 ?>
 
 
@@ -31,6 +104,7 @@ $extraClassName = !empty($block['className']) ? ' ' . esc_attr($block['className
                             $categoryDescription = $category->description;
                             $categoryImage = get_field('featured_image', 'course-category_' . $categoryID);
                             $categoryLink = get_term_link($categoryID);
+                            $categoryCourses = isset($coursesByCategory[$categoryID]) ? $coursesByCategory[$categoryID] : array();
                         ?>
                         <div class="featured-item">
                             <h3 class="featured-title"><?php echo esc_html($categoryName); ?></h3>
@@ -42,26 +116,17 @@ $extraClassName = !empty($block['className']) ? ' ' . esc_attr($block['className
                                         <a href="<?php echo esc_url($categoryLink); ?>" class="button button-secondary">Get in Touch</a>
                                     </div>
                                 </div>
-                                <?php 
-                                    $courses = get_posts(array(
-                                        'post_type' => 'sa-course',
-                                        'tax_query' => array(
-                                            array(
-                                                'taxonomy' => 'course-category',
-                                                'field' => 'term_id',
-                                                'terms' => $categoryID,
-                                            ),
-                                        ),
-                                    ));
-                                if ($courses): ?>
+                                <?php if (!empty($categoryCourses)): ?>
                                     <div class="courses-wrapper">
                                         <h4>Courses</h4>
                                         <ul class="courses-list">
-                                            <?php foreach ($courses as $course): ?>
-                                                <li class="course-item">
-                                                    <a href="<?php echo esc_url(get_permalink($course->ID)); ?>"><?php echo esc_html($course->post_title); ?></a>
-                                                </li>
-                                            <?php endforeach; ?>
+                                            <?php foreach ($categoryCourses as $courseId): 
+                                                if (isset($courseData[$courseId])): ?>
+                                                    <li class="course-item">
+                                                        <a href="<?php echo esc_url($courseData[$courseId]['permalink']); ?>"><?php echo esc_html($courseData[$courseId]['title']); ?></a>
+                                                    </li>
+                                                <?php endif;
+                                            endforeach; ?>
                                         </ul>
                                     </div>
                                 <?php endif; ?>
@@ -72,7 +137,7 @@ $extraClassName = !empty($block['className']) ? ' ' . esc_attr($block['className
                             </div>
                             <?php if ($categoryImage): ?>
                                 <div class="featured-image">
-                                    <img src="<?php echo esc_url($categoryImage['url']); ?>" alt="<?php echo esc_attr($categoryName); ?>">
+                                    <img src="<?php echo esc_url($categoryImage['url']); ?>" alt="<?php echo esc_attr($categoryName); ?>" loading="lazy">
                                 </div>
                             <?php endif; 
                             if ($category->count): ?>

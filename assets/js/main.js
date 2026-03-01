@@ -3,6 +3,7 @@ import jQuery from 'jquery';
 import { initNumberCounters } from './number-counter';
 import { initCourseFilter } from './course-filter';
 import { initPostFilter } from './post-filter';
+import { initEventListing } from './event-listing';
 import { initFooterAccordion } from './footer-accordion';
 import { initCategoryFeaturedSlider } from './category-featured-slider';
 
@@ -17,6 +18,9 @@ jQuery(document).ready(function($) {
     
     // Initialize post filtering with AJAX if filter exists on the page
     initPostFilter();
+    
+    // Initialize event listing with AJAX if exists on the page
+    initEventListing();
     
     // Initialize footer accordion for mobile devices
     initFooterAccordion();

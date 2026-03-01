@@ -37,6 +37,12 @@ export function initNumberCounters() {
                 }
                 
                 counterElement.textContent = currentNumber;
+                
+                // Trigger animation on each update
+                counterElement.style.animation = 'none';
+                setTimeout(() => {
+                    counterElement.style.animation = '';
+                }, 10);
             }, stepDuration);
         }
         

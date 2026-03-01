@@ -63,7 +63,16 @@ if (!$event_id) {
             </div>
         <?php endif; 
         
-        if ($booking_link): ?>
+        // Check if event has passed
+        $isEventPast = false;
+        if ($event_date_from) {
+            $eventDateTimestamp = strtotime($event_date_from);
+            $todayTimestamp = strtotime(date('Y-m-d'));
+            $isEventPast = $eventDateTimestamp < $todayTimestamp;
+        }
+        
+        // Only show Book Now button for upcoming events
+        if ($booking_link && !$isEventPast): ?>
             <a target="_blank" href="<?php echo esc_url($booking_link); ?>" class="button button-secondary">Book Now</a>
         <?php endif; ?>
     </div>

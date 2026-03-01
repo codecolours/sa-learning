@@ -166,3 +166,200 @@ function sa_learning_course_events() {
 
 add_action( 'neve_after_content', 'sa_learning_course_events' );
 
+
+/**
+ * Helper function to prepare course data with all necessary fields
+ */
+function sa_learning_prepare_courses_data($courseIds) {
+    if (empty($courseIds)) {
+        return array();
+    }
+    
+    // Ensure we have IDs, not post objects
+    $courseIds = array_map('intval', (array) $courseIds);
+    
+    // Batch load all posts at once
+    $posts = get_posts(array(
+        'post_type' => 'sa-course',
+        'include' => $courseIds,
+        'posts_per_page' => -1,
+        'orderby' => 'post__in',
+        'no_found_rows' => true,
+    ));
+    
+    if (empty($posts)) {
+        return array();
+    }
+    
+    $coursesData = array();
+    
+    foreach ($posts as $post) {
+        $courseId = $post->ID;
+        
+        $coursesData[] = array(
+            'id' => $courseId,
+            'title' => $post->post_title,
+            'excerpt' => get_the_excerpt($post),
+            'permalink' => get_permalink($courseId),
+            'thumbnail' => get_the_post_thumbnail_url($courseId, 'full'),
+            'course_code' => get_field('course_code', $courseId),
+            'course_highlight' => get_field('course_highlight', $courseId),
+        );
+    }
+    
+    return $coursesData;
+}
+
+/**
+ * Helper function to render a course item from prepared data
+ * Uses the course-item.php template for consistency
+ */
+function sa_learning_render_course_item($courseData) {
+    set_query_var('courseData', $courseData);
+    get_template_part('views/loop-templates/course-item');
+    set_query_var('courseData', null); // Clean up
+}
+
+/**
+ * AJAX handler for filtering courses (optimized with HTML caching)
+ */
+function ajax_filter_courses() {
+    $category = isset($_POST['category']) ? sanitize_text_field($_POST['category']) : 'all';
+    $courses_per_page = isset($_POST['courses_per_page']) ? intval($_POST['courses_per_page']) : -1;
+    $filter_by_categories = isset($_POST['filter_by_categories']) ? sanitize_text_field($_POST['filter_by_categories']) : '';
+
+    $cacheKey = 'course_html_' . md5(serialize(array(
+        'posts_per_page' => $courses_per_page,
+        'filter_cats' => $filter_by_categories,
+        'filter' => $category
+    )));
+    
+    $cachedResponse = get_transient($cacheKey);
+    
+    if (false !== $cachedResponse) {
+        wp_send_json_success($cachedResponse);
+        return;
+    }
+    
+    $args = array(
+        'post_type' => 'sa-course',
+        'posts_per_page' => $courses_per_page,
+        'post_status' => 'publish',
+        'fields' => 'ids',
+        'no_found_rows' => true,
+        'update_post_meta_cache' => false,
+        'update_post_term_cache' => false,
+    );
+
+    $tax_query = array();
+
+    if ($category !== 'all') {
+        $tax_query[] = array(
+            'taxonomy' => 'course-category',
+            'field' => 'slug',
+            'terms' => $category,
+        );
+    }
+
+    if (!empty($filter_by_categories)) {
+        $filter_category_ids = array_map('intval', explode(',', $filter_by_categories));
+        if (!empty($filter_category_ids)) {
+            $tax_query[] = array(
+                'taxonomy' => 'course-category',
+                'field' => 'term_id',
+                'terms' => $filter_category_ids,
+            );
+        }
+    }
+
+    if (!empty($tax_query)) {
+        if (count($tax_query) > 1) {
+            $tax_query['relation'] = 'AND';
+        }
+        $args['tax_query'] = $tax_query;
+    }
+
+    $query = new WP_Query($args);
+    $courseIds = $query->posts;
+    
+    $coursesData = sa_learning_prepare_courses_data($courseIds);
+    
+    ob_start();
+    
+    if (!empty($coursesData)) {
+        foreach ($coursesData as $courseData) {
+            sa_learning_render_course_item($courseData);
+        }
+    }
+    
+    $html = ob_get_clean();
+    
+    $response = array(
+        'html' => $html,
+        'total' => count($coursesData),
+    );
+    
+    set_transient($cacheKey, $response, 6 * HOUR_IN_SECONDS);
+    
+    wp_send_json_success($response);
+}
+add_action('wp_ajax_filter_courses', 'ajax_filter_courses');
+add_action('wp_ajax_nopriv_filter_courses', 'ajax_filter_courses');
+
+/**
+ * Clear category featured cache
+ */
+function sa_learning_clear_category_featured_cache($post_id) {
+    if (get_post_type($post_id) === 'sa-course') {
+        delete_transient('category_featured_courses_' . md5(serialize($categoryIds)));
+    }
+}
+add_action('save_post_sa-course', 'sa_learning_clear_category_featured_cache');
+add_action('edited_course-category', 'sa_learning_clear_category_featured_cache');
+
+
+/**
+ * Clear course listing cache when courses are updated
+ */
+function sa_learning_clear_course_cache($post_id = null) {
+    if ($post_id && get_post_type($post_id) !== 'sa-course') {
+        return;
+    }
+    
+    global $wpdb;
+    $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_course_listing_%' OR option_name LIKE '_transient_timeout_course_listing_%'");
+    $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_course_html_%' OR option_name LIKE '_transient_timeout_course_html_%'");
+}
+add_action('save_post_sa-course', 'sa_learning_clear_course_cache');
+add_action('delete_post', 'sa_learning_clear_course_cache');
+
+/**
+ * Clear course cache when course categories are updated
+ */
+function sa_learning_clear_course_category_cache() {
+    global $wpdb;
+    $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_course_listing_%' OR option_name LIKE '_transient_timeout_course_listing_%'");
+    $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_course_html_%' OR option_name LIKE '_transient_timeout_course_html_%'");
+    $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_course_categories_%' OR option_name LIKE '_transient_timeout_course_categories_%'");
+}
+add_action('edited_course-category', 'sa_learning_clear_course_category_cache');
+add_action('create_course-category', 'sa_learning_clear_course_category_cache');
+add_action('delete_course-category', 'sa_learning_clear_course_category_cache');
+
+/**
+ * Manual cache clearing function
+ * To clear all course caches, run in WordPress console or add to functions.php temporarily:
+ * sa_learning_clear_all_course_caches();
+ */
+function sa_learning_clear_all_course_caches() {
+    global $wpdb;
+    $deleted = $wpdb->query("DELETE FROM {$wpdb->options} WHERE 
+        option_name LIKE '_transient_course_listing_%' OR 
+        option_name LIKE '_transient_timeout_course_listing_%' OR
+        option_name LIKE '_transient_course_html_%' OR 
+        option_name LIKE '_transient_timeout_course_html_%' OR
+        option_name LIKE '_transient_course_categories_%' OR 
+        option_name LIKE '_transient_timeout_course_categories_%'
+    ");
+    return $deleted;
+}

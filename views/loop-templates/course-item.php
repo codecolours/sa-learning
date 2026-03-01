@@ -6,35 +6,48 @@
  */
 ?>
 <?php 
-$course_id = get_query_var('courseID');
-if (!$course_id) {
-    return;
-}
+// Check if we have prepared data (for cached/optimized rendering)
+$courseData = get_query_var('courseData');
 
-// Get course categories for filtering
-$categories = get_the_terms($course_id, 'course-category');
-$category_slugs = array();
-if ($categories && !is_wp_error($categories)) {
-    foreach ($categories as $category) {
-        $category_slugs[] = $category->slug;
+if ($courseData) {
+    // Use prepared data from cache
+    $course_id = $courseData['id'];
+    $course_title = $courseData['title'];
+    $course_excerpt = $courseData['excerpt'];
+    $course_permalink = $courseData['permalink'];
+    $course_thumbnail = $courseData['thumbnail'];
+    $course_code = $courseData['course_code'];
+    $course_highlight = $courseData['course_highlight'];
+} else {
+    // Fallback to fetching from database (traditional WordPress loop)
+    $course_id = get_query_var('courseID');
+    if (!$course_id) {
+        return;
     }
+    
+    $course_title = get_the_title($course_id);
+    $course_excerpt = get_the_excerpt($course_id);
+    $course_permalink = get_permalink($course_id);
+    $course_thumbnail = get_the_post_thumbnail_url($course_id);
+    $course_code = get_field('course_code', $course_id);
+    $course_highlight = get_field('course_highlight', $course_id);
 }
-$data_categories = !empty($category_slugs) ? implode(' ', $category_slugs) : 'uncategorized';
 ?>
-<div class="list-item col-4" data-category="<?php echo esc_attr($data_categories); ?>">
+<div class="list-item col-4">
     <div class="item-img">
-        <?php 
-        $featuredImage = get_the_post_thumbnail_url($course_id);
-        if ($featuredImage): ?>
-            <img src="<?php echo esc_url($featuredImage); ?>" alt="<?php echo esc_attr(get_the_title($course_id)); ?>">
+        <?php if ($course_thumbnail): ?>
+            <a href="<?php echo esc_url($course_permalink); ?>">
+                <img src="<?php echo esc_url($course_thumbnail); ?>" 
+                     alt="<?php echo esc_attr($course_title); ?>" 
+                     class="img-fluid"
+                     loading="lazy">
+            </a>
         <?php endif; 
         
-        $course_code = get_field('course_code', $course_id);
         if ($course_code): ?>
             <div class="course-code"><?php echo esc_html($course_code); ?></div>
         <?php endif; 
 
-        $course_highlight = get_field('course_highlight', $course_id);
         if ($course_highlight): ?>
             <div class="c-highlight">
                 <div class="course-highlight"><?php echo esc_html($course_highlight); ?></div>
@@ -42,14 +55,12 @@ $data_categories = !empty($category_slugs) ? implode(' ', $category_slugs) : 'un
         <?php endif; ?>
     </div>
     <div class="item-info">
-        <h4><?php echo esc_html(get_the_title($course_id)); ?></h4>
-        <?php 
-        $excerpt = get_the_excerpt($course_id);
-        if ($excerpt): ?>
+        <h4><?php echo esc_html($course_title); ?></h4>
+        <?php if ($course_excerpt): ?>
             <div class="item-det">
-                <?php echo wp_kses_post($excerpt); ?>
+                <?php echo wp_kses_post($course_excerpt); ?>
             </div>
         <?php endif; ?>
-        <a href="<?php echo esc_url(get_permalink($course_id)); ?>" class="button button-secondary">Discover More</a>
+        <a href="<?php echo esc_url($course_permalink); ?>" class="button button-secondary">Discover More</a>
     </div>
 </div>
