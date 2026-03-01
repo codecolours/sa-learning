@@ -168,4 +168,10 @@ ul.page-numbers {
   .title.entry-title {
     color: $white;
   }
+  .rank-math-breadcrumb {
+    color: $white;
+    a, a:first-child:before {
+      color: $white;
+    }
+  }
 }
