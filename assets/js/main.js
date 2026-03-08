@@ -6,7 +6,7 @@ import { initPostFilter } from './post-filter';
 import { initEventListing } from './event-listing';
 import { initFooterAccordion } from './footer-accordion';
 import { initCategoryFeaturedSlider } from './category-featured-slider';
-
+import { initVideoBox } from './video-box';
 
 // Wait for DOM to be ready
 jQuery(document).ready(function($) {
@@ -27,4 +27,7 @@ jQuery(document).ready(function($) {
     
     // Initialize category featured slider
     initCategoryFeaturedSlider();
+
+    // Initialize video box
+    initVideoBox();
 });

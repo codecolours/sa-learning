@@ -132,7 +132,7 @@ if ($selectedCategories) {
                                 <?php endif; ?>
                                 <div class="btn-wrapper mb-btn-wrapper">
                                     <a href="<?php echo esc_url($categoryLink); ?>" class="button button-primary">More Info</a>
-                                    <a href="<?php echo esc_url($categoryLink); ?>" class="button button-secondary">Get in Touch</a>
+                                    <a href="/get-in-touch/" class="button button-secondary">Get in Touch</a>
                                 </div>
                             </div>
                             <?php if ($categoryImage): ?>
